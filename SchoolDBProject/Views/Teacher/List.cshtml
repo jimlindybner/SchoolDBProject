@@ -4,6 +4,14 @@
 }
 
 <div>
+    <h2>Search for Teacher</h2>
+    <form method="GET" action="/Teacher/List/">
+        <input type="text" name="q" />
+        <input type="submit" value="search" />
+    </form>
+</div>
+
+<div>
     <h2>List of Teachers</h2>
     @foreach (var teacher in Model)
     {

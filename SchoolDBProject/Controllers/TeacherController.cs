@@ -16,13 +16,13 @@ namespace SchoolDBProject.Controllers
             return View();
         }
 
-        // GET: Teacher/List
+        // GET: Teacher/List/{q}
         [HttpGet]
-        [Route("Teacher/List")]
-        public ActionResult List()
+        [Route("Teacher/List/{q}")]
+        public ActionResult List(string q)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = controller.ListTeachers();
+            IEnumerable<Teacher> Teachers = controller.ListTeachers(q);
             return View(Teachers);
         }
 

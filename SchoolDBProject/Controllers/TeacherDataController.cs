@@ -18,15 +18,21 @@ namespace SchoolDBProject.Controllers
         /// <summary>
         /// Returns a list of teachers in the system
         /// </summary>
+        /// 
+        /// <param name="q">
+        /// text to search against the teacher names
+        /// </param>
+        /// 
         /// <example>
         /// GET api/TeacherData/ListTeachers -> Alexander Bennett
         /// </example>
+        /// 
         /// <returns>
         /// A list of teachers (first and last names)
         /// </returns>
         [HttpGet]
-        [Route("api/TeacherData/ListTeachers")]
-        public IEnumerable<Teacher> ListTeachers()
+        [Route("api/TeacherData/ListTeachers/{q}")]
+        public IEnumerable<Teacher> ListTeachers(string q)
         {
             //Create an instance of a connection
             MySqlConnection Connection = School.AccessDatabase();
@@ -38,7 +44,10 @@ namespace SchoolDBProject.Controllers
             MySqlCommand Command = Connection.CreateCommand();
 
             //SQL query
-            Command.CommandText = "SELECT * FROM teachers;";
+            string query = "SELECT * FROM teachers WHERE LOWER(teacherfname) LIKE @q OR LOWER(teacherlname) LIKE @q;";
+            Command.CommandText = query;
+            Command.Parameters.AddWithValue("@q", $"%{q}%");
+            Command.Prepare();
 
             //Gather result set of query into variable
             MySqlDataReader ResultSet = Command.ExecuteReader();
