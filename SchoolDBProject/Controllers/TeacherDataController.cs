@@ -15,6 +15,15 @@ namespace SchoolDBProject.Controllers
         private SchoolDBContext School = new SchoolDBContext();
 
         //This controller accesses teachers table in MySQL database
+        /// <summary>
+        /// Returns a list of teachers in the system
+        /// </summary>
+        /// <example>
+        /// GET api/TeacherData/ListTeachers -> Alexander Bennett
+        /// </example>
+        /// <returns>
+        /// A list of teachers (first and last names)
+        /// </returns>
         [HttpGet]
         [Route("api/TeacherData/ListTeachers")]
         public IEnumerable<Teacher> ListTeachers()
@@ -29,7 +38,7 @@ namespace SchoolDBProject.Controllers
             MySqlCommand Command = Connection.CreateCommand();
 
             //SQL query
-            Command.CommandText = $"SELECT * FROM teachers;";
+            Command.CommandText = "SELECT * FROM teachers;";
 
             //Gather result set of query into variable
             MySqlDataReader ResultSet = Command.ExecuteReader();
@@ -49,7 +58,7 @@ namespace SchoolDBProject.Controllers
                 decimal Salary = (decimal)ResultSet["salary"];
 
                 Teacher NewTeacher = new Teacher();
-                NewTeacher.TeacherId= TeacherId;
+                NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
                 NewTeacher.TeacherLname = TeacherLname;
                 NewTeacher.EmployeeNum = EmployeeNum;
@@ -65,7 +74,49 @@ namespace SchoolDBProject.Controllers
 
             //return final list of teachers
             return Teachers;
+        }
 
+        //This controller looks for specific record using id input
+        [HttpGet]
+        [Route("api/TeacherData/FindTeacher/{id}")]
+        public Teacher FindTeacher(int id)
+        {
+            Teacher NewTeacher = new Teacher();
+
+            //Create an instance of a connection
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //Open the connection between the wbserver and database
+            Connection.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand Command = Connection.CreateCommand();
+
+            //SQL query
+            Command.CommandText = $"SELECT * FROM teachers WHERE teacherid = {id};";
+
+            //Gather result set of query into variable
+            MySqlDataReader ResultSet = Command.ExecuteReader();
+
+            while (ResultSet.Read())
+            {
+                //Access column info by DB column name as index
+                int TeacherId = (int)ResultSet["teacherid"];
+                string TeacherFname = (string)ResultSet["teacherfname"];
+                string TeacherLname = (string)ResultSet["teacherlname"];
+                string EmployeeNum = (string)ResultSet["employeenumber"];
+                DateTime HireDate = (DateTime)ResultSet["hiredate"];
+                decimal Salary = (decimal)ResultSet["salary"];
+
+                NewTeacher.TeacherId = TeacherId;
+                NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherLname = TeacherLname;
+                NewTeacher.EmployeeNum = EmployeeNum;
+                NewTeacher.HireDate = HireDate;
+                NewTeacher.Salary = Salary;
+            }
+            
+            return NewTeacher;
         }
     }
 }
