@@ -1,0 +1,14 @@
+﻿@model SchoolDBProject.Models.Teacher
+@{
+    ViewBag.Title = "DelConfirmation";
+}
+
+<h2>Delete Confirmation</h2>
+
+<p>Are you sure you want to delete <strong>@Model.TeacherFname @Model.TeacherLname</strong> from the database?</p>
+<p><em>This action cannot be undone!</em></p>
+
+<a href="/Teacher/Show/@Model.TeacherId">Cancel</a>
+<form method="POST" action="/Teacher/Delete/@Model.TeacherId">
+    <button style="background-color: #d11; color: #fff; border: 0; border-radius: 5px;">Confirm Delete</button>
+</form>

@@ -87,8 +87,8 @@ namespace SchoolDBProject.Controllers
 
         //This controller looks for specific record using id input
         [HttpGet]
-        [Route("api/TeacherData/FindTeacher/{id}")]
-        public Teacher FindTeacher(int id)
+        [Route("api/TeacherData/ShowTeacher/{id}")]
+        public Teacher ShowTeacher(int id)
         {
             Teacher NewTeacher = new Teacher();
 
@@ -126,6 +126,67 @@ namespace SchoolDBProject.Controllers
             }
             
             return NewTeacher;
+        }
+
+        /// <summary>
+        /// This method doesn't return anything but sends query/command to database to delete a record using id input
+        /// </summary>
+        /// <param name="id"></param>
+        /// <example>
+        /// POST : api/TeacherData/DeleteTeacher/3 -> doesn't return anything, sends delete query to database
+        /// </example>
+        [HttpPost]
+        [Route("api/TeacherData/DeleteTeacher/{id}")]
+        public void DeleteTeacher(int id)
+        {
+            //create an instance of a connection
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //open the connection between the webserver and the database
+            Connection.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand Command = Connection.CreateCommand();
+
+            //SQL query
+            Command.CommandText = "DELETE FROM teachers WHERE teacherid = @id";
+            Command.Parameters.AddWithValue("@id", id);
+            Command.Prepare();
+
+            Command.ExecuteNonQuery();
+
+            //close connection - nothing is returned as this is a void method - just execute deletion
+
+            Connection.Close();
+        }
+
+        [HttpPost]
+        public void AddTeacher([FromBody]Teacher NewTeacher)
+        {
+            //create an instance of a connection
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //open the connection between the webserver and the database
+            Connection.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand Command = Connection.CreateCommand();
+
+            //SQL query
+            Command.CommandText =
+                "INSERT INTO teachers (teacherfname, teacherlname, employeenumber, hiredate, salary)" + 
+                "VALUES (@TeacherFname, @TeacherLname, @EmployeeNum, @HireDate, @Salary)";
+
+            Command.Parameters.AddWithValue("@TeacherFname", NewTeacher.TeacherFname);
+            Command.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
+            Command.Parameters.AddWithValue("@EmployeeNum", NewTeacher.EmployeeNum);
+            Command.Parameters.AddWithValue("@HireDate", NewTeacher.HireDate);
+            Command.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
+            Command.Prepare();
+            Command.ExecuteNonQuery();
+
+            //close connection - nothing is returned as this is a void method - just execute deletion
+            Connection.Close();
         }
     }
 }

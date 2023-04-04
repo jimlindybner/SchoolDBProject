@@ -9,12 +9,22 @@
         <input type="text" name="q" />
         <input type="submit" value="search" />
     </form>
+    <a href="/Teacher/List">Refresh Search</a>
 </div>
 
 <div>
     <h2>List of Teachers</h2>
-    @foreach (var teacher in Model)
-    {
-        <p><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></p>
-    }
+    <div style="margin-bottom: 1rem;">
+        <button>
+            <a href="/Teacher/New">Add a Teacher</a>
+        </button>
+    </div>
+    <div>
+        @foreach (var teacher in Model)
+        {
+            <p>
+                <a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a>
+            </p>
+        }
+    </div>
 </div>
