@@ -76,6 +76,7 @@ namespace SchoolDBProject.Controllers
 
             //instantiate new author and assign values to object properties
             Teacher NewTeacher = new Teacher();
+            
             NewTeacher.TeacherFname = TeacherFname;
             NewTeacher.TeacherLname = TeacherLname;
             NewTeacher.EmployeeNum = EmployeeNum;

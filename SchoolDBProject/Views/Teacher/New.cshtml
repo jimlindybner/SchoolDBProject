@@ -5,28 +5,71 @@
 
 <h2>Add a Teacher</h2>
 
-<form method="POST" action="/Teacher/Create">
+<form method="POST" action="/Teacher/Create" name="newTeacher">
     <div>
         <label for="TeacherFname">First Name:</label>
-        <input type="text" id="TeacherFname" name="TeacherFname" />
+        <input type="text" id="TeacherFname" name="TeacherFname" required />
     </div>
     <div>
         <label for="TeacherLname">Last Name:</label>
-        <input type="text" id="TeacherLname" name="TeacherLname" />
+        <input type="text" id="TeacherLname" name="TeacherLname" required />
     </div>
     <div>
         <label for="EmployeeNum">Employee Number:</label>
-        <input type="text" id="EmployeeNum" name="EmployeeNum" />
+        <input type="text" id="EmployeeNum" name="EmployeeNum" required />
     </div>
     <div>
         <label for="HireDate">Hired On:</label>
-        <input type="datetime" id="HireDate" name="HireDate" />
+        <input type="datetime" id="HireDate" name="HireDate" required />
     </div>
     <div>
         <label for="Salary">Salary:</label>
-        <input type="number" id="Salary" name="Salary" step=".01" />
+        <input type="number" id="Salary" name="Salary" step=".01" required />
     </div>
     <div>
-        <input type="submit" name="submit" value="Add Teacher" />
+        <input type="submit" id="submitNewTeacher" name="submit" value="Add Teacher" />
     </div>
 </form>
+
+<script>
+    /*
+     * I tried using the following JS to validate the inputs. But it does not ultimately stop the form from submitting.
+     * Resorted to using HTML validation instead.
+     * Would appreciate some feedback on this part to better understand how better to approach this problem using just JS.
+
+    //handles
+    let teacherFname = document.querySelector("#TeacherFname");
+    let teacherLname = document.querySelector("#TeacherLname");
+    let employeeNum = document.querySelector("#EmployeeNum");
+    let hireDate = document.querySelector("#HireDate");
+    let salary = document.querySelector("#Salary");
+    let submitBtn = document.querySelector("#submitNewTeacher");
+
+    //function validateForm
+    function validateForm() {
+        if (!teacherFname.value) {
+            alert("Please enter the new teacher's first name.");
+            return false;
+        }
+        else if (!teacherLname.value) {
+            alert("Please enter the new teacher's last name.");
+            return false;
+        }
+        else if (!employeeNum.value) {
+            alert("Please enter the new teacher's employee number.");
+            return false;
+        }
+        else if (!hireDate.value) {
+            alert("Please enter the new teacher's hire date.");
+            return false;
+        }
+        else if (!salary.value) {
+            alert("Please enter the new teacher's salary.");
+            return false;
+        }
+    }
+
+    //event listener
+    submitBtn.addEventListener("click", validateForm);
+    */
+</script>
