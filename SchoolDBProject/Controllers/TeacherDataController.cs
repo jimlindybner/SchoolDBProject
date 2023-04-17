@@ -188,5 +188,38 @@ namespace SchoolDBProject.Controllers
             //close connection - nothing is returned as this is a void method - just execute deletion
             Connection.Close();
         }
+        public void UpdateTeacher(int id, [FromBody] Teacher TeacherInfo)
+        {
+            //create an instance of a connection
+            MySqlConnection Connection = School.AccessDatabase();
+
+            //open the connection between the webserver and the database
+            Connection.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand Command = Connection.CreateCommand();
+
+            //SQL query
+            Command.CommandText =
+                "Update teachers SET " +
+                "teacherfname=@TeacherFname, " +
+                "teacherlname=@TeacherLname, " +
+                "employeenumber=@EmployeeNum, " +
+                "hiredate=@HireDate, " +
+                "salary=@Salary " +
+                "WHERE teacherid=@TeacherId";
+            Command.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            Command.Parameters.AddWithValue("@TeacherLname", TeacherInfo.TeacherLname);
+            Command.Parameters.AddWithValue("@EmployeeNum", TeacherInfo.EmployeeNum);
+            Command.Parameters.AddWithValue("@HireDate", TeacherInfo.HireDate);
+            Command.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            Command.Parameters.AddWithValue("@TeacherId", id);
+            Command.Prepare();
+
+            Command.ExecuteNonQuery();
+
+            //close connection - nothing is returned as this is a void method - just execute deletion
+            Connection.Close();
+        }
     }
 }
